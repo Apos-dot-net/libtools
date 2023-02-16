@@ -1,0 +1,1402 @@
+-------------------------------------------------------------------------------MENU STARTS---------------------------------------------------------------------------
+-------------------------------OPTIONSMENU STARTS---------------------------------------------
+CREATE SEPARATE MENU XML FILE IN MENU DIRECTORY
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mail"
+       android:icon="@drawable/mail"
+        android:title="mail"
+        />
+    <item android:id="@+id/upload"
+        android:icon="@drawable/upload"
+        android:title="upload"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/share"
+        android:icon="@drawable/share"
+        android:title="share"
+        app:showAsAction="ifRoom" />
+</menu>
+
+JAVA CODE::::::::::::::::::::::::::::::::::::::::::::::::::;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.optionmenu,menu);
+        return true;
+    }
+@Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+     switch (item.getItemId())
+     {
+         case R.id.mail : display("mail");
+                           return true;
+         case R.id.upload : display("upload");
+             return true;
+         case R.id.share : display("share");
+             return true;
+             default:
+        return super.onOptionsItemSelected(item);
+    }
+}
+
+void display(String text)
+{
+    Toast.makeText(getApplicationContext(),text,Toast.LENGTH_LONG).show();
+}
+
+}
+
+
+::::::::::::::::::::::CONTEXT MENU:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Activitymain.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+Contextmenu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/option1"
+        android:title="Option1"/>
+
+    <item
+
+        android:id="@+id/option2"
+        android:title="Option2"/>
+</menu>
+::::::::-------------JAVA CODE-------------------::::::
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        TextView textView = findViewById(R.id.text_view);
+        registerForContextMenu(textView);
+    }
+@Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Choose your option");
+        getMenuInflater().inflate(R.menu.contextmenu, menu);
+
+    }
+  @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.option1:
+                Toast.makeText(getApplicationContext(), "option1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.option2:
+                Toast.makeText(getApplicationContext(), "option2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+}
+
+::::::::::::::::::::::::::::::::::::::::::;;;;;;;POPUMPMENU;;;;;;;;;;;;;;;;;;::::::::::::::::::::::::::::::::::::::::
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="show popup"
+        android:onClick="showpopup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+Popupmenu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/item1"
+    android:title="Item1"/>
+
+    <item
+        android:id="@+id/item2"
+        android:title="Item2"/>
+</menu>
+
+JAVA::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+
+ public void showpopup(View v)
+    {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.inflate(R.menu.popmenu);
+        popup.show();
+        popup.setOnMenuItemClickListener(this);
+    }
+
+
+  @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(getApplicationContext(), "option1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(getApplicationContext(), "option2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+-----------------------------------:::::::::::::::::::::::::::::::::::::::::::::::::::MENU ENDS HERE:::::::::::::::::::::::::::::::::::::::::--------------------------------------------
+
+-------------------------------------:::::::::::::::::;;;INTENT STARTS HERE:::::::::::::::::::::;;--------------------------------------------------
+
+
+EXPLICIT INTENT HEER
+explicit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new  Intent(getBaseContext(), MainActivity2.class);
+                startActivity(intent);
+
+
+            }
+
+IMPLICIT INTENT HERE
+ implicit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://www.google.com"));
+                startActivity(intent);
+            }
+        });
+
+TRANSMITTING DATA
+
+String f = ed1.getText().toString();
+Intent i = new Intent(nj.this,ma.class);
+i.putExtra("keyname",f);
+startActivity(i);
+
+RECIEVING DATA
+String rf;
+Intent i = getIntent();
+rf = i.getStringExtra("keyname");
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::;;--------------------------------------INTENTS ENDS HERE----------------------------------------::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+_________________________________________________CUSTOM TOAST STARTS HERE___________________________________________
+
+HERE HAVE A SEPARATE XML FILE FOR CUSTOM TOAST
+R.id.toast_root id of customXML
+
+THEN WE WRITE SEPARATE FUNCTION LIKE showToast()
+
+public void showToast()
+    {
+      LayoutInflater inflater = getLayoutInflater();
+      View layout = inflater.inflate(R.layout.custom, (ViewGroup) findViewById(R.id.toast_root));
+      Toast toast = new Toast(getApplicationContext());
+      toast.setGravity(Gravity.CENTER,0,0);
+      toast.setDuration(Toast.LENGTH_LONG);
+      toast.setView(layout);
+      toast.show();
+    }
+____________________________________________________CUSTOM TOAST HERE____________________________________
+
+::::::::::--------------------------------------------------------------SHARED PREFERENCES STARTS HERE---------------------------------------------:::::::::::::::::::::::::
+JAVA CODE:
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    private TextView textView;
+    private EditText editText;
+    private Button applyTextButton;
+    private Button saveButton;
+    private Switch switch1;
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    public static final String SWITCH1 = "switch1";
+    private String text;
+    private boolean switchOnOff;
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        textView = (TextView) findViewById(R.id.textview);
+        editText = (EditText) findViewById(R.id.edittext);
+        applyTextButton = (Button) findViewById(R.id.apply_text_button);
+        saveButton = (Button) findViewById(R.id.save_button);
+        switch1 = (Switch) findViewById(R.id.switch1);
+        applyTextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText(editText.getText().toString());
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveData();
+            }
+        });
+        loadData();
+        updateViews();
+    }
+public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TEXT, textView.getText().toString());
+        editor.putBoolean(SWITCH1, switch1.isChecked());
+        editor.apply();
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+
+public void loadData()
+
+{
+
+SharedPreferences sharedPreferences =getSharedPreferences(SHARED_PREFS,
+MODE_PRIVATE);
+
+text = sharedPreferences.getString(TEXT,"");
+
+switchOnOff=sharedPreferences.getBoolean(SWITCH1,false);
+
+}
+
+public void updateViews()
+
+{
+
+textView.setText(text);
+
+switch1.setChecked(switchOnOff);
+
+}
+
+::::::::::::::::::::::::::::::::::::::::::::----------------------------------------------SHARED PREFERNCES ENDS HERE-------------------------------::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::;;;:::::::::::::::::::::::::::::::::::::::::::::::::CUSTOM LISTVIEW STARTS HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+SIMPLE LISTVIEW HERE
+mainActivity.java
+public class MainActivity extends AppCompatActivity {
+    // Array of strings...
+    ListView simpleList;
+    String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
+
+    @Override   protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);      setContentView(R.layout.activity_main);
+        simpleList = (ListView)findViewById(R.id.simpleListView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, countryList);
+        simpleList.setAdapter(arrayAdapter);
+    }
+}
+ simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              String value = arrayAdapter.getItem(position);
+              Toast.makeText(getApplicationContext(),value,Toast.LENGTH_SHORT).show();
+          }
+      });
+
+    }
+}
+
+
+
+
+activity_listview.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        />
+
+    <TextView
+     android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="15dp"
+    android:textColor="#FF9800" />
+</LinearLayout>
+
+MAINACTIVITY.JAVA
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+public class MainActivity extends AppCompatActivity {
+
+    ListView simpleList;
+    String countryList[] = {"India", "Australia", "America"};
+    int flags[] = {R.drawable.india, R.drawable.australia, R.drawable.america};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        simpleList = findViewById(R.id.simpleView);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), countryList, flags);
+        simpleList.setAdapter(customAdapter);
+    }
+}
+
+CustomAdapter.java
+
+package com.sindhu.customlist;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class CustomAdapter extends BaseAdapter {
+    Context context;
+    String CountryList[];
+    int flags[];
+    LayoutInflater inflter;
+
+public CustomAdapter(Context context, String[] countryList, int[] flags) {
+        this.context = context;
+        CountryList = countryList;
+        this.flags = flags;
+        this.inflter = (LayoutInflater.from(context)); // Create a new LayoutInflater instance associated with a particular Context
+    }
+
+CustomAdapter.java
+
+@Override
+    public int getCount() {
+        return CountryList.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+ @Override
+
+///Get a View that displays the data at the specified position in the data set. You can either create a View manually or inflate it from an XML layout file.
+    public View getView(int position, View view, ViewGroup parent) {
+        view = inflter.inflate(R.layout.activity_listview,null);
+        TextView country = view.findViewById(R.id.textView);
+        ImageView icon = view.findViewById(R.id.icon);
+        country.setText(CountryList[position]);
+        icon.setImageResource(flags[position]);
+        return view;
+    }
+}
+
+
+
+Intents
+
+simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // set an Intent to Another Activity
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("image", flags[position]);
+            startActivity(intent); // start Intent
+            }
+        });
+    }
+
+
+   SecondActivity.class
+package com.sindhu.customlist;
+
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.ImageView;
+public class SecondActivity extends AppCompatActivity {
+    ImageView selectedImage;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        selectedImage = (ImageView) findViewById(R.id.icon); // init a ImageView
+        Intent intent = getIntent(); // get Intent which we set from Previous Activity
+        selectedImage.setImageResource(intent.getIntExtra("image", 0)); // get image from Intent and set it in ImageView
+    }
+}
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::CUSTOM LISTVIEW ENDS HERE:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+-------------------------------------------AUTO COMPLETE TEXT VIEW HERE-----------------------------------------------------------------------
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What is your favourite programming language?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.032" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginTop="144dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+JAVA CODE:
+public class MainActivity extends AppCompatActivity {
+    String[] language ={"C","C++","Java",".NET","iPhone","Android","ASP.NET","PHP"};
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //Creating the instance of ArrayAdapter containing list of language names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item,language);
+        //Getting the instance of AutoCompleteTextView
+        AutoCompleteTextView actv =  (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        actv.setThreshold(1);//will start working from first character
+        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        actv.setTextColor(Color.RED);
+    }
+}
+----------------------------------------------------------------AUTO COMPLETE TEXTVIEW ENDS HERE-------------------------------------------------------------------------------
+----------------------------------------------------------alert dialog------------------------------
+
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    public void exit(View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // Setting Alert Dialog Title
+        alertDialogBuilder.setTitle("Confirm Exit..!!!");
+        // Icon Of Alert Dialog
+        alertDialogBuilder.setIcon(R.drawable.question);
+        // Setting Alert Dialog Message
+        alertDialogBuilder.setMessage("Are you sure,You want to exit");
+        alertDialogBuilder.setCancelable(false);
+alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                finish();
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this,"You clicked over No",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                alertDialogBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(),"You clicked on Cancel",Toast.LENGTH_SHORT).show();
+                            }
+                         });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+}
+--------------------------------------alert dialog done here-------------------------------------------------------------------------------------------------
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::SPINNER HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+MainActivity.java
+public class MainActivity extends AppCompatActivity implements
+        AdapterView.OnItemSelectedListener {
+    String[] country = { "India", "USA", "China", "Japan", "Other"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+       //Getting the instance of Spinner and applying OnItemSelectedListener on it
+        Spinner spin = (Spinner) findViewById(R.id.spinner);
+        spin.setOnItemSelectedListener(this);
+          //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,country);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(aa);
+      }
+//Performing action onItemSelected and onNothing selected
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+        Toast.makeText(getApplicationContext(),country[position] , Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+}
+::::::::::::::::::::::::::::::::::::::::::::::::::_SPINNER ENDS HERE::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;
+
+--------------------------------------------------------------------------SSQLILTE STARTS HERE----------------------------------------------------------------------------------
+MainActivity.Java
+
+import androidx.appcompat.app.AlertDialog;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+
+import android.os.Bundle;
+
+import android.view.View;
+
+import android.widget.EditText;
+
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+EditText fname,lname;
+
+TextView list;
+
+dbController dbc;
+
+@Override
+
+protected void onCreate(Bundle savedInstanceState) {
+
+super.onCreate(savedInstanceState);
+
+setContentView(R.layout.activity_main);
+
+fname = findViewById(R.id.fname);
+
+lname = findViewById(R.id.lname);
+
+list = findViewById(R.id.textView);
+
+dbc = new dbController(this, "", null, 1);
+
+}
+
+
+SQLite
+
+public void btn_click(View v)
+
+{switch(v.getId())
+
+{
+
+case R.id.btnadd:
+
+dbc.insert(fname.getText().toString(),lname.getText().toString());
+
+break;
+
+case R.id.btndel:
+
+dbc.delete(fname.getText().toString());
+
+break;
+
+
+case R.id.btnupd:
+
+AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+
+dialog.setTitle("Enter Firstname");
+
+final EditText newFname = new EditText(this);
+
+dialog.setView(newFname);
+
+dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+@Override
+
+public void onClick(DialogInterface dialog, int which) {
+
+dbc.update(fname.getText().toString(),newFname.getText().toString());
+
+}
+
+});
+
+dialog.show();
+
+break;
+
+case R.id.btnlis:
+
+dbc.list(list);
+
+break;
+
+}
+
+}
+
+}
+
+SQLite
+
+dbController.java
+
+import android.content.ContentValues;
+
+import android.content.Context;
+
+import android.database.Cursor;
+
+import android.database.sqlite.SQLiteDatabase;
+
+import android.database.sqlite.SQLiteOpenHelper;
+
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+
+public class dbController extends SQLiteOpenHelper {
+
+public dbController(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory
+factory, int version) {
+
+super(context, "Test1.db", factory, version);
+
+}
+
+@Override
+
+public void onCreate(SQLiteDatabase db) {
+
+db.execSQL("CREATE TABLE STUDENT(FNAME TEXT,LNAME TEXT);");
+
+}
+
+
+
+
+@Override
+
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+db.execSQL("DROP TABLE IF EXISTS STUDENT");
+
+onCreate(db);
+
+}
+
+public void insert(String a, String b)
+
+{
+
+ContentValues cv = new ContentValues();
+
+cv.put("FNAME",a);
+
+cv.put("LNAME",b);
+
+this.getWritableDatabase().insert("STUDENT","",cv);
+
+}
+
+public void delete(String a) {
+
+this.getWritableDatabase().delete("STUDENT", "FNAME='"+a+"'", null);
+
+}
+
+
+SQLite
+
+public void update(String a, String aa)
+
+{
+
+this.getWritableDatabase().execSQL("UPDATE STUDENT SET FNAME = '"+aa+"' WHERE
+FNAME = '"+a+"';");
+
+}
+
+public void list(TextView tv) {
+
+tv.setText("");
+
+Cursor c = this.getReadableDatabase().rawQuery("SELECT * FROM STUDENT", null);
+
+while (c.moveToNext()) {
+
+tv.append(c.getString(0) + " " + c.getString(1) + "\n");
+
+}
+
+}
+
+}
+
+
+--------------------------------------------------------------SQLTE ENDS HERE----------------------------------------------
+
+---------------------------------------------FRAGMENTS STARTS HERE---------------------------------------------------------------------------------------
+Activitymain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:app="http://schemas.android.com/apk/res-auto"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="fill_parent"
+
+android:layout_height="fill_parent"
+
+tools:context=".MainActivity">
+
+<fragment
+
+android:id="@+id/fragment1"
+
+android:name=" com.sindhu.fragmentlifecycle. Fragment1"
+
+android:layout_width=“match_parent"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+/>
+
+<fragment
+
+android:id="@+id/fragment2"
+
+android:name=" com.sindhu.fragmentlifecycle.Fragment2"
+
+android:layout_width=“match_parent"
+
+android:layout_height="match_parent"
+
+android:layout_weight="1"
+
+/>
+
+</LinearLayout>
+
+
+fragment1.xml
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:background="#F5F5DC"
+
+tools:context=".fragment1">
+
+<!-- TODO: Update blank fragment layout -->
+
+<TextView
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>
+
+
+
+fragment2.xml
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:background="#F0FFFF"
+
+tools:context=".Fragment2">
+
+<!-- TODO: Update blank fragment layout -->
+
+<TextView
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>
+
+
+Fragment1.java
+
+public class Fragment1 extends Fragment {
+
+@Override
+
+public void onCreate(Bundle savedInstanceState) {
+
+super.onCreate(savedInstanceState);
+
+}
+
+@Override
+
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+
+Bundle savedInstanceState) {
+
+// Inflate the layout for this fragment
+
+return inflater.inflate(R.layout. fragment1, container, false);
+
+}
+
+}
+
+
+
+Fragment2.java
+
+public class Fragment2 extends Fragment {
+
+@Override
+
+public void onCreate(Bundle savedInstanceState) {
+
+super.onCreate(savedInstanceState);
+
+}
+
+@Override
+
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+
+Bundle savedInstanceState) {
+
+// Inflate the layout for this fragment
+
+return inflater.inflate(R.layout. fragment2, container, false);
+
+}
+
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- add RadioGroup which contain the many RadioButton-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="209dp"
+        android:text="Select your Subject ?"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:layout_marginTop="50dp"
+        android:id="@+id/groupradio"
+        android:layout_marginLeft="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <!-- In RadioGroup create the 1 Radio Button-->
+        <!-- like this we will add some more Radio Button-->
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id2"
+            android:text="C/C++ Programming"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id3"
+            android:text="Data Structure"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/radia_id1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DBMS"
+            android:textSize="20dp" />
+
+        <RadioButton
+            android:id="@+id/radia_id4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Algorithms"
+            android:textSize="20dp" />
+
+    </RadioGroup>
+
+    <!-- add button For Submit the Selected item-->
+
+    <!-- add clear button for clear the selected item-->
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="200dp"
+        android:text="Submit"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="200dp"
+        android:text="Clear"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
+package com.example.radiobutton3;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    // Define the object for Radio Group,
+    // Submit and Clear buttons
+    private RadioGroup radioGroup;
+    Button submit, clear;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Bind the components to their respective objects
+        // by assigning their IDs
+        // with the help of findViewById() method
+        submit = (Button)findViewById(R.id.submit);
+        clear = (Button)findViewById(R.id.clear);
+        radioGroup = (RadioGroup)findViewById(R.id.groupradio);
+
+        // Uncheck or reset the radio buttons initially
+        radioGroup.clearCheck();
+
+        // Add the Listener to the RadioGroup
+        radioGroup.setOnCheckedChangeListener(
+                new RadioGroup
+                        .OnCheckedChangeListener() {
+                    @Override
+
+                    // The flow will come here when
+                    // any of the radio buttons in the radioGroup
+                    // has been clicked
+
+                    // Check which radio button has been clicked
+                    public void onCheckedChanged(RadioGroup group,
+                                                 int checkedId)
+                    {
+
+                        // Get the selected Radio Button
+                        RadioButton
+                                radioButton
+                                = (RadioButton)group
+                                .findViewById(checkedId);
+                    }
+                });
+
+        // Add the Listener to the Submit Button
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                // When submit button is clicked,
+                // Ge the Radio Button which is set
+                // If no Radio Button is set, -1 will be returned
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                if (selectedId == -1) {
+                    Toast.makeText(MainActivity.this,
+                            "No answer has been selected",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                else {
+
+                    RadioButton radioButton
+                            = (RadioButton)radioGroup
+                            .findViewById(selectedId);
+
+                    // Now display the value of selected item
+                    // by the Toast message
+                    Toast.makeText(MainActivity.this,
+                            radioButton.getText(),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+
+        // Add the Listener to the Submit Button
+        clear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                // Clear RadioGroup
+                // i.e. reset all the Radio Buttons
+                radioGroup.clearCheck();
+            }
+        });
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- add RadioGroup which contain the many RadioButton-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="209dp"
+        android:text="Select your Subject ?"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:layout_marginTop="50dp"
+        android:id="@+id/groupradio"
+        android:layout_marginLeft="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <!-- In RadioGroup create the 1 Radio Button-->
+        <!-- like this we will add some more Radio Button-->
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id2"
+            android:text="C/C++ Programming"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radia_id3"
+            android:text="Data Structure"
+            android:textSize="20dp"/>
+
+        <RadioButton
+            android:id="@+id/radia_id1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DBMS"
+            android:textSize="20dp" />
+
+        <RadioButton
+            android:id="@+id/radia_id4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Algorithms"
+            android:textSize="20dp" />
+
+    </RadioGroup>
+
+    <!-- add button For Submit the Selected item-->
+
+    <!-- add clear button for clear the selected item-->
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="200dp"
+        android:text="Submit"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="200dp"
+        android:text="Clear"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
+package com.example.radiobutton3;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    // Define the object for Radio Group,
+    // Submit and Clear buttons
+    private RadioGroup radioGroup;
+    Button submit, clear;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Bind the components to their respective objects
+        // by assigning their IDs
+        // with the help of findViewById() method
+        submit = (Button)findViewById(R.id.submit);
+        clear = (Button)findViewById(R.id.clear);
+        radioGroup = (RadioGroup)findViewById(R.id.groupradio);
+
+        // Uncheck or reset the radio buttons initially
+        radioGroup.clearCheck();
+
+        // Add the Listener to the RadioGroup
+        radioGroup.setOnCheckedChangeListener(
+                new RadioGroup
+                        .OnCheckedChangeListener() {
+                    @Override
+
+                    // The flow will come here when
+                    // any of the radio buttons in the radioGroup
+                    // has been clicked
+
+                    // Check which radio button has been clicked
+                    public void onCheckedChanged(RadioGroup group,
+                                                 int checkedId)
+                    {
+
+                        // Get the selected Radio Button
+                        RadioButton
+                                radioButton
+                                = (RadioButton)group
+                                .findViewById(checkedId);
+                    }
+                });
+
+        // Add the Listener to the Submit Button
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                // When submit button is clicked,
+                // Ge the Radio Button which is set
+                // If no Radio Button is set, -1 will be returned
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                if (selectedId == -1) {
+                    Toast.makeText(MainActivity.this,
+                            "No answer has been selected",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                else {
+
+                    RadioButton radioButton
+                            = (RadioButton)radioGroup
+                            .findViewById(selectedId);
+
+                    // Now display the value of selected item
+                    // by the Toast message
+                    Toast.makeText(MainActivity.this,
+                            radioButton.getText(),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+
+        // Add the Listener to the Submit Button
+        clear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                // Clear RadioGroup
+                // i.e. reset all the Radio Buttons
+                radioGroup.clearCheck();
+            }
+        });
+    }
+}
+
+
+
